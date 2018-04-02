@@ -16,6 +16,7 @@ class OrderSummary extends Component {
                 </li>);
         });
 
+        let currencyFormatter = require('currency-formatter');
         return (
             <Aux>
                 <h3>Your Order</h3>
@@ -23,7 +24,7 @@ class OrderSummary extends Component {
                 <ul>
                     {ingredientSummary}
                 </ul>
-                <p><strong>Total price: {this.props.price.toFixed(2)}</strong></p>
+                <p><strong>Total price: {currencyFormatter.format(this.props.price, { code: 'BRL' })}</strong></p>
                 <p>Continue to Checkout?</p>
                 <Button buttonType="Danger" clicked={this.props.purchaseCancelled}>CANCEL</Button>
                 <Button buttonType="Success" clicked={this.props.purchaseContinued}>CONTINUE</Button>
