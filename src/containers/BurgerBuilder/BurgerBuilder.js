@@ -28,6 +28,7 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props);
         axios.get('https://react-my-burger-2b983.firebaseio.com/ingredients.json').then(response => {
             this.setState({ ingredients: response.data });
         }).catch(error => {
@@ -84,29 +85,38 @@ class BurgerBuilder extends Component {
 
     purchaseContinueHandler = () => {
         // alert('You Continued!');
-        this.setState({ loading: true });
-        const orders = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice.toFixed(2),
-            customer: {
-                name: 'Wagner Faria do Amaral',
-                address: {
-                    street: 'Rua Salém, nº 52, Bairro Jd. Califórnia, Cuiabá-MT',
-                    zipCode: '78070-448',
-                    country: 'Brasil'
-                },
-                email: 'wagnerfaria1601@gmail.com'
-            },
-            deliveryMethod: 'fastest'
-        }
-        axios.post('/orders.json', orders).then(response => {
-            console.log(response);
-            this.setState({ loading: false, purchasing: false });
-        }).catch(error => {
-            console.log(error);
-            this.setState({ loading: false, purchasing: false });
-        });
+        // this.setState({ loading: true });
+        // const orders = {
+        //     ingredients: this.state.ingredients,
+        //     price: this.state.totalPrice.toFixed(2),
+        //     customer: {
+        //         name: 'Wagner Faria do Amaral',
+        //         address: {
+        //             street: 'Rua Salém, nº 52, Bairro Jd. Califórnia, Cuiabá-MT',
+        //             zipCode: '78070-448',
+        //             country: 'Brasil'
+        //         },
+        //         email: 'wagnerfaria1601@gmail.com'
+        //     },
+        //     deliveryMethod: 'fastest'
+        // }
+        // axios.post('/orders.json', orders).then(response => {
+        //     console.log(response);
+        //     this.setState({ loading: false, purchasing: false });
+        // }).catch(error => {
+        //     console.log(error);
+        //     this.setState({ loading: false, purchasing: false });
+        // });
 
+        const queryParams = [];
+        for (let i in this.state.ingredients) {
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+        }
+        const queryString = queryParams.join('&');
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString
+        });
     }
 
     render() {
