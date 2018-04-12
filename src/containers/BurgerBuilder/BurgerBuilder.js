@@ -107,7 +107,6 @@ class BurgerBuilder extends Component {
         //     console.log(error);
         //     this.setState({ loading: false, purchasing: false });
         // });
-
         const queryParams = [];
         for (let i in this.state.ingredients) {
             queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
@@ -120,12 +119,12 @@ class BurgerBuilder extends Component {
     }
 
     render() {
-        const disableInfo = {
+        const disabledInfo = {
             ...this.state.ingredients
         };
 
-        for (let key in disableInfo) {
-            disableInfo[key] = disableInfo[key] <= 0;
+        for (let key in disabledInfo) {
+            disabledInfo[key] = disabledInfo[key] <= 0;
         }
 
         let orderSummary = null;
@@ -142,7 +141,7 @@ class BurgerBuilder extends Component {
                     <BuildControls
                         ingredientAdded={this.addIngredientHandler}
                         ingredientRemoved={this.removeIngredientHandler}
-                        disabled={disableInfo}
+                        disabled={disabledInfo}
                         price={this.state.totalPrice}
                         purchasable={this.state.purchasable}
                         ordered={this.purchaseHandler} />
